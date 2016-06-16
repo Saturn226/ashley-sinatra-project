@@ -1,2 +1,4 @@
-account 
-<%=@user.username%>
+<h1>Welcome <%=@user.first_name.capitalize%></h1>
+<form method="post" action="/logout">
+  <input type="submit" value="logout" id="logout">
+</form>
