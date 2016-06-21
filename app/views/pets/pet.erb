@@ -1,0 +1,26 @@
+<h1><%=@pet.name%></h1>
+
+Owner:<%=@pet.user.username%><br>
+Breed:<%=@pet.breed%><br>
+Bio:<%=@pet.bio%><br>
+
+<%if @pet.adoptable%>
+  Price:<%=@pet.price%>
+  <%if @pet.user.id != session[:id]%>
+    <form method="post" action="/adopt">
+      <input type="hidden" name="id" value="<%=@pet.id%>">
+      <input type="submit" value="Adopt this pet">
+    </form>
+  <%end%>
+<%end%>
+
+
+
+<form method="get" action="/adopt">
+  <input type="submit" value="Back to List">
+</form>
+
+<form method="post" action="/pet/<%=@pet.id%>/delete">
+  <input type="submit" value="delete pet">
+</form>
+

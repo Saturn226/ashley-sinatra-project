@@ -1,4 +1,31 @@
 <h1>Welcome <%=@user.first_name.capitalize%></h1>
+
+<h2>Account Stats: </h2>
+Username: <%=@user.username%><br>
+First Name:<%=@user.first_name%><br>
+Last Name:<%=@user.last_name%><br>
+City:<%=@user.city%><br>
+State:<%=@user.state%><br> 
+
+<h3>Pets:</h3> 
+<% @user.pets.each do |pet| %>
+  <a href= "/pet/<%=pet.id%>"><%= pet.name %></a>
+<%end%>
+
+<form method="get" action="/adopt">
+  <input type="submit" value="Adopt A Pet">
+</form>
+
+<form method="get" action="/pets/new">
+  <input type ="submit" value="List New Pet">
+</form>
+
+
+
+
+
+
+
 <form method="post" action="/logout">
   <input type="submit" value="logout" id="logout">
 </form>
