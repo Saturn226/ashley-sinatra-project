@@ -12,6 +12,13 @@ State:<%=@user.state%><br>
   <a href= "/pet/<%=pet.id%>"><%= pet.name %></a>
 <%end%>
 
+<%if @user.id == session[:id]%>
+  <form method="get" action="/edit">
+    <input type = "submit" value="Edit User"%>
+  </form>
+<%end%>
+
+
 <form method="get" action="/adopt">
   <input type="submit" value="Adopt A Pet">
 </form>

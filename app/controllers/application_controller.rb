@@ -10,7 +10,11 @@ class ApplicationController < Sinatra::Base
   end
 
   get "/" do
-    erb :index
+    if session[:id]
+      redirect "/account"
+    else
+      erb :index
+    end
   end
 
   get "/signup" do
@@ -21,12 +25,12 @@ class ApplicationController < Sinatra::Base
     user = User.find_by(username: params[:username])
     if user && user.authenticate(params[:password])
       session[:id] = user.id
-      redirect "/#{user.username}/account"
+      redirect user_path
     else
-      raise 'failure'
+      redirect "/"
     end
 
-    redirect "/#{user.username}/account"
+    #redirect "/#{user.username}/account"
   end
 
   post "/signup" do
@@ -34,7 +38,7 @@ class ApplicationController < Sinatra::Base
     user = User.new(params[:user])
     if user.save
      #raise @user.inspect
-      redirect "/#{user.username}/account"
+      redirect user_path
     else
       raise "failure"
     end
@@ -57,7 +61,35 @@ class ApplicationController < Sinatra::Base
 
   get "/account" do
     user = User.find_by_id(session[:id])
-    redirect "/#{user.username}/account"
+    redirect user_path
+  end
+
+  get "/edit" do
+    if logged_in?
+      erb :"users/edit"
+    else
+      redirect '/'
+    end
+  end
+
+  post "/edit" do
+    if !logged_in?
+      redirect '/'
+    else
+      @user = current_user
+      @user.first_name = params[:user][:first_name]
+      @user.last_name = params[:user][:last_name]
+      @user.email = params[:email]
+      @user.state = params[:user][:state]
+      @user.city = params[:user][:city]
+      
+      if@user.save
+        redirect user_path
+      else
+        redirect '/edit'
+      end
+    end
+       
   end
 
   helpers do
@@ -67,6 +99,10 @@ class ApplicationController < Sinatra::Base
 
     def current_user
       User.find(session[:id])
+    end
+
+    def user_path
+      "/#{current_user.username}/account"
     end
   end
 

@@ -13,8 +13,14 @@
 
   <link rel="stylesheet" href="/stylesheets/main.css" />
 </head>
+
 <body>
   <div class="wrapper">
+  <nav>
+  <% if logged_in? %>
+    <a href ="/account">Home</a> | <a href='/adopt'>Adopt</a> 
+  <% end %>
+  </nav>
 
       <%= yield %>
 

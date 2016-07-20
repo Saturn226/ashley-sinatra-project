@@ -1,7 +1,6 @@
+Edit Pet:
 
-Create New Pet:
-
-<form method="post" action="/pets/new">
+<form method="post" action="/pet/<%=@pet.id%>/edit">
   Name:<input type="text" name="name"><br>
   Breed:<input type="text" name="breed"><br>
   Bio:<input type="textarea" name="bio"><br>

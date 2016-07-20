@@ -20,6 +20,14 @@ Bio:<%=@pet.bio%><br>
   <input type="submit" value="Back to List">
 </form>
 
+
+<%if @pet.user.id == session[:id]%>
+  <form method="get" action="/pet/<%=@pet.id%>/edit">
+    <input type = "submit" value="edit"%>
+  </form>
+<%end%>
+
+
 <form method="post" action="/pet/<%=@pet.id%>/delete">
   <input type="submit" value="delete pet">
 </form>
