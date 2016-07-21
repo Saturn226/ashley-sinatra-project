@@ -29,15 +29,12 @@ class ApplicationController < Sinatra::Base
     else
       redirect "/"
     end
-
-    #redirect "/#{user.username}/account"
   end
 
   post "/signup" do
 
     user = User.new(params[:user])
     if user.save
-     #raise @user.inspect
       redirect user_path
     else
       raise "failure"
@@ -79,7 +76,7 @@ class ApplicationController < Sinatra::Base
       @user = current_user
       @user.first_name = params[:user][:first_name]
       @user.last_name = params[:user][:last_name]
-      @user.email = params[:email]
+      @user.email = params[:user][:email]
       @user.state = params[:user][:state]
       @user.city = params[:user][:city]
       
@@ -101,8 +98,8 @@ class ApplicationController < Sinatra::Base
       User.find(session[:id])
     end
 
-    def user_path
-      "/#{current_user.username}/account"
+    def user_path(user=current_user)
+      "/#{user.username}/account"
     end
   end
 

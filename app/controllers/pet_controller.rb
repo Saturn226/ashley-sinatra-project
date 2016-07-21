@@ -15,10 +15,10 @@ class PetController < ApplicationController
   end
 
   post '/pets/new' do
-    user = current_user
-    pet = Pet.new(params)
-    pet.user_id = user.id
-    if pet.save
+    
+    #pet = Pet.new(params)
+    #pet.user_id = user.id
+    if current_user.pets.create(params)
       redirect user_path
     else
       redirect "/pets/new"
@@ -41,8 +41,6 @@ class PetController < ApplicationController
     if @pet.user.id == session[:id]
       erb :'/pets/edit'
     else
-      #raise "Forbidden"
-      user = current_user
       redirect user_path
     end
   end
@@ -55,8 +53,7 @@ class PetController < ApplicationController
     @pet.adoptable = params[:adoptable]
     @pet.price = params[:price]
     @pet.save
-    @user = @pet.user
-    redirect user_path
+    redirect user_path(@pet.user)
   end
 
  
