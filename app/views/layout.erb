@@ -12,11 +12,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <link rel="stylesheet" href="/stylesheets/main.css" />
+
 </head>
 
 <body>
   <div class="wrapper">
   <nav>
+
+   <% if flash.has?(:message) %>
+    <%= flash[:message] %><br>
+  <% end %>
   <% if logged_in? %>
     <a href ="/account">Home</a> | <a href='/adopt'>Adopt</a> 
   <% end %>

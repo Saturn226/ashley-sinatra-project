@@ -7,10 +7,11 @@ class ApplicationController < Sinatra::Base
     set :views, 'app/views'
     enable :sessions
     set :session_secret, "password_security"
+    use Rack::Flash
   end
 
   get "/" do
-    if session[:id]
+    if logged_in?
       redirect "/account"
     else
       erb :index
@@ -27,24 +28,31 @@ class ApplicationController < Sinatra::Base
       session[:id] = user.id
       redirect user_path
     else
+      flash[:message] = "Wrong Username or Password"
       redirect "/"
     end
   end
 
   post "/signup" do
-
-    user = User.new(params[:user])
-    if user.save
-      redirect user_path
+    if params[:user].values.any?{|attribute| attribute == ""}
+      flash[:message] = "Must fill out all fields"
+      redirect "/signup"
+    
+    elsif User.all.detect(username: params[:user][:username])
+      flash[:message] = "Username already taken"
+      redirect "/signup"
     else
-      raise "failure"
+      user = User.new(params[:user])
+      user.save
+      session[:id] = user.id
+      redirect user_path
     end
 
   end
 
   get '/:username/account' do
     if logged_in?
-      @user = User.find_by_id(session[:id])
+      @user = current_user
       erb :"users/account"
     else
       redirect '/'
@@ -52,13 +60,19 @@ class ApplicationController < Sinatra::Base
   end
 
   post '/logout' do
-    session.clear
+    if logged_in?
+      session.clear
+    end
     redirect '/'
   end
 
   get "/account" do
-    user = User.find_by_id(session[:id])
-    redirect user_path
+    if logged_in?
+      user = User.find_by_id(session[:id])
+      redirect user_path
+    else
+      redirect "/"
+    end
   end
 
   get "/edit" do
@@ -72,30 +86,33 @@ class ApplicationController < Sinatra::Base
   post "/edit" do
     if !logged_in?
       redirect '/'
-    else
-      @user = current_user
-      @user.first_name = params[:user][:first_name]
-      @user.last_name = params[:user][:last_name]
-      @user.email = params[:user][:email]
-      @user.state = params[:user][:state]
-      @user.city = params[:user][:city]
+    elsif params[:user].values.any?{|value| value != ""}
+        @user = current_user
+        @user.first_name = params[:user][:first_name]
+        @user.last_name = params[:user][:last_name]
+        @user.email = params[:user][:email]
+        @user.state = params[:user][:state]
+        @user.city = params[:user][:city]
       
-      if@user.save
-        redirect user_path
-      else
-        redirect '/edit'
-      end
+        if@user.save
+          redirect user_path
+        else
+          redirect '/edit'
+        end
+    else
+      flash[:message] = "Must fill out all fields"
+      redirect '/edit'
     end
-       
   end
+      
 
   helpers do
-      def logged_in?
+    def logged_in?
       !!session[:id]
     end
 
     def current_user
-      User.find(session[:id])
+      User.find_by(id: session[:id])
     end
 
     def user_path(user=current_user)
