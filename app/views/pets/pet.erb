@@ -22,13 +22,13 @@ Bio:<%=@pet.bio%><br>
 
 
 <%if @pet.user.id == session[:id]%>
-  <form method="get" action="/pet/<%=@pet.id%>/edit">
+  <form method="get" action="/pets/<%=@pet.id%>/edit">
     <input type = "submit" value="edit"%>
   </form>
 <%end%>
 
 
-<form method="post" action="/pet/<%=@pet.id%>/delete">
+<form method="post" action="/pets/<%=@pet.id%>/delete">
   <input type="submit" value="delete pet">
 </form>
 

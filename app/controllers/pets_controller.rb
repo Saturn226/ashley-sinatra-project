@@ -1,23 +1,18 @@
 class PetsController < ApplicationController
-  # before do
-  #   if !logged_in?
-  #     redirect '/' unless request.path_info == '/'
-  #   end
-  # end
 
 
-  get '/adopt' do
+  get '/pets/adopt' do
    erb :"pets/adopt"
   end
 
-  post '/adopt' do
+  post '/pets/adopt' do
     if !logged_in?
       redirect '/'
     else
       user = current_user
       pet = Pet.find(params[:id])
       Pet.adopt(pet,user)
-      redirect "/pet/#{pet.id}"
+      redirect "/pets/#{pet.id}"
     end
   end
 
@@ -30,6 +25,11 @@ class PetsController < ApplicationController
     if !logged_in? 
       redirect '/'
     else
+      if params.values.any?{|value| value == ""}
+        flash[:message] = "Must fill out all fields"
+        redirect back
+      end
+
       pet = current_user.pets.build(params)
       if pet.save
         redirect user_path
@@ -39,7 +39,7 @@ class PetsController < ApplicationController
     end  
   end
 
-  get '/pet/:id' do
+  get '/pets/:id' do
     if logged_in?
       @pet = Pet.find(params[:id])
       erb :'/pets/pet'
@@ -48,19 +48,19 @@ class PetsController < ApplicationController
     end
   end
 
-  post '/pet/:id/delete' do
+  post '/pets/:id/delete' do
     if logged_in? 
       @pet = Pet.find(params[:id])
       if @pet.user.id == current_user.id
         @pet.delete
-        redirect '/adopt'
+        redirect 'pets/adopt'
       end
     else
       redirect '/'
     end
   end
 
-  get '/pet/:id/edit' do
+  get '/pets/:id/edit' do
     if logged_in? 
       @pet = Pet.find(params[:id])
       if @pet.user.id == current_user.id
@@ -73,7 +73,7 @@ class PetsController < ApplicationController
     end
   end
 
-  post '/pet/:id/edit' do
+  post '/pets/:id/edit' do
     if logged_in?
       if params.values.any?{|value| value == ""}
         flash[:message] = "Must fill out all fields"

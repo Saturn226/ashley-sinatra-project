@@ -1,5 +1,5 @@
 <h1>List of available adoptable pets</h1>
 
 <% Pet.adoptable_list.each do |pet| %>
-  <a href= "/pet/<%=pet.id%>"><%= pet.name %></a>
+  <a href= "/pets/<%=pet.id%>"><%= pet.name %></a>
 <%end%>
