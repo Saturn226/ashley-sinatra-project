@@ -12,7 +12,7 @@ class ApplicationController < Sinatra::Base
 
   get "/" do
     if logged_in?
-      redirect "/account"
+      redirect user_path
     else
       erb :index
     end
@@ -29,7 +29,7 @@ class ApplicationController < Sinatra::Base
     end
 
     def user_path(user=current_user)
-      "/#{user.username}/account"
+      "/#{user.username}"
     end
   end
 

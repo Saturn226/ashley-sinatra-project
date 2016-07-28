@@ -7,7 +7,7 @@ Bio:<%=@pet.bio%><br>
 <%if @pet.adoptable%>
   Price:<%=@pet.price%>
   <%if @pet.user.id != session[:id]%>
-    <form method="post" action="/adopt">
+    <form method="post" action="/pets/adopt">
       <input type="hidden" name="id" value="<%=@pet.id%>">
       <input type="submit" value="Adopt this pet">
     </form>
@@ -16,7 +16,7 @@ Bio:<%=@pet.bio%><br>
 
 
 
-<form method="get" action="/adopt">
+<form method="get" action="/pets/adopt">
   <input type="submit" value="Back to List">
 </form>
 

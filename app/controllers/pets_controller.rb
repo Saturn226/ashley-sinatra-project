@@ -53,7 +53,7 @@ class PetsController < ApplicationController
       @pet = Pet.find(params[:id])
       if @pet.user.id == current_user.id
         @pet.delete
-        redirect 'pets/adopt'
+        redirect back
       end
     else
       redirect '/'

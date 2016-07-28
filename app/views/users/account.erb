@@ -13,11 +13,11 @@ State:<%=@user.state%><br>
 
 <h3>Pets:</h3> 
 <% @user.pets.each do |pet| %>
-  <a href= "/pet/<%=pet.id%>"><%= pet.name %></a>
+  <a href= "/pets/<%=pet.id%>"><%= pet.name %></a>
 <%end%>
 
 <%if @user.id == session[:id]%>
-  <form method="get" action="/edit">
+  <form method="get" action="<%=@user.username%>/edit">
     <input type = "submit" value="Edit User"%>
   </form>
 <%end%>
@@ -28,7 +28,7 @@ State:<%=@user.state%><br>
 </form>
 
 <form method="get" action="/pets/new">
-  <input type ="submit" value="List New Pet">
+  <input type ="submit" value="Create New Pet">
 </form>
 
 

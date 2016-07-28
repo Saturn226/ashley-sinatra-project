@@ -5,7 +5,7 @@ class UsersController < ApplicationController
     end
 
 
-     get '/:username/account' do
+     get '/:username' do
       if logged_in?
         @user = current_user
         erb :"users/account"
@@ -14,16 +14,16 @@ class UsersController < ApplicationController
       end
     end
 
-    get "/account" do
-      if logged_in?
-        user = User.find_by_id(session[:id])
-        redirect user_path
-      else
-        redirect "/"
-      end
-    end
+    # get "/account" do
+    #   if logged_in?
+    #     user = User.find_by_id(session[:id])
+    #     redirect user_path
+    #   else
+    #     redirect "/"
+    #   end
+    # end
 
-    get "/edit" do
+    get "/:username/edit" do
       if logged_in?
         erb :"users/edit"
       else
