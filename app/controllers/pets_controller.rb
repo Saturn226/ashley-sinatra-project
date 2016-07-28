@@ -1,4 +1,4 @@
-class PetController < ApplicationController
+class PetsController < ApplicationController
   # before do
   #   if !logged_in?
   #     redirect '/' unless request.path_info == '/'
