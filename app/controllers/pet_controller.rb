@@ -75,7 +75,7 @@ class PetController < ApplicationController
 
   post '/pet/:id/edit' do
     if logged_in?
-      if params.values.any?{|value| value != ""}
+      if params.values.any?{|value| value == ""}
         flash[:message] = "Must fill out all fields"
         redirect back
       else
