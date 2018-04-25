@@ -1,4 +1,4 @@
-#My Best friend is a place to find your 'fur'ever friend.#
+My Best friend is a place to find your 'fur'ever friend.
 
 Users are able to sign up and list their pet for adoption
 Other users are able to adopt each others pets
@@ -8,3 +8,5 @@ Once you log in, you will be directed to your account page where you can see all
 
 You can list a new pet by pressing the Create pet button
 You are able to view each individual pet and edit it by going to that pets page
+
+An preview of this app in action can be seen here: https://www.youtube.com/watch?v=hfvCtDyHWEk
